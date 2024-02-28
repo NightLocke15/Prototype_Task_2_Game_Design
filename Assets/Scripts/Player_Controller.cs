@@ -19,7 +19,7 @@ public class Player_Controller : MonoBehaviour
     #region Variables
     [SerializeField] private float speed;
     [SerializeField] private float jump;
-    [SerializeField] private float distance;
+    public float maxDistance;
     private bool p1OnFloor;
     private bool p2OnFloor;
     public bool p1OnWall;
@@ -41,6 +41,46 @@ public class Player_Controller : MonoBehaviour
 
     private void Update()
     {
+        PlayerMovement();
+        PlayerChekcs();
+        PlayerJumps();
+        PlayerBoundaries();
+        PlayerGrabbing();
+
+        var distance = Vector2.Distance(playerOne.transform.position, playerTwo.transform.position);
+
+        if (distance > maxDistance)
+        {
+            playerTwo.transform.position = (playerTwo.transform.position - playerOne.transform.position).normalized * maxDistance + playerOne.transform.position;
+            playerOne.transform.position = (playerOne.transform.position - playerTwo.transform.position).normalized * maxDistance + playerTwo.transform.position;            
+        }        
+    }
+
+    private void PlayerMovement()
+    {
+        //P1 Move
+        if (Input.GetKey(KeyCode.D)) // && playerOne.transform.position.x < playerTwo.transform.position.x + maxDistance)
+        {
+            playerOne.transform.position += Vector3.right * speed * Time.deltaTime;
+        }
+        else if (Input.GetKey(KeyCode.A)) // && playerOne.transform.position.x > playerTwo.transform.position.x - maxDistance)
+        {
+            playerOne.transform.position += Vector3.left * speed * Time.deltaTime;
+        }
+
+        //P2 Move
+        if (Input.GetKey(KeyCode.RightArrow)) // && playerTwo.transform.position.x < playerOne.transform.position.x + maxDistance)
+        {
+            playerTwo.transform.position += Vector3.right * speed * Time.deltaTime;
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow)) // && playerTwo.transform.position.x > playerOne.transform.position.x - maxDistance)
+        {
+            playerTwo.transform.position += Vector3.left * speed * Time.deltaTime;
+        }
+    }
+
+    private void PlayerChekcs()
+    {
         //Player 1
         if (p1Collider.IsTouching(floorCollider))
         {
@@ -58,42 +98,6 @@ public class Player_Controller : MonoBehaviour
         else
         {
             p1OnWall = false;
-        }
-
-        //P1 Move
-        if (Input.GetKey(KeyCode.D))
-        {
-            playerOne.transform.position += Vector3.right * speed * Time.deltaTime;
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            playerOne.transform.position += Vector3.left * speed * Time.deltaTime;
-        }
-
-        //P1 Jump
-        if (Input.GetKeyDown(KeyCode.W) && p1OnFloor)
-        {
-            p1RigidBody.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
-        }
-
-        //P1 Constraints
-        if (playerOne.transform.position.x > 7.985f)
-        {
-            playerOne.transform.position = new Vector2(7.985f, playerOne.transform.position.y);
-        }
-        else if (playerOne.transform.position.x < -7.985f)
-        {
-            playerOne.transform.position = new Vector2(-7.985f, playerOne.transform.position.y);
-        }
-
-        //P1 Grabbing
-        if (Input.GetKey(KeyCode.Q) && p1OnWall)
-        {
-            playerOne.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
-        }
-        else
-        {
-            playerOne.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
         }
 
         //Player 2
@@ -114,21 +118,33 @@ public class Player_Controller : MonoBehaviour
         {
             p2OnWall = false;
         }
+    }
 
-        //P2 Move
-        if (Input.GetKey(KeyCode.RightArrow))
+    private void PlayerJumps()
+    {
+        //P1 Jump
+        if (Input.GetKeyDown(KeyCode.W) && p1OnFloor)
         {
-            playerTwo.transform.position += Vector3.right * speed * Time.deltaTime;
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            playerTwo.transform.position += Vector3.left * speed * Time.deltaTime;
+            p1RigidBody.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
         }
 
         //P2 Jump
         if (Input.GetKeyDown(KeyCode.UpArrow) && p2OnFloor)
         {
             p2RigidBody.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
+        }
+    }
+
+    private void PlayerBoundaries()
+    {
+        //P1 Constraints
+        if (playerOne.transform.position.x > 7.985f)
+        {
+            playerOne.transform.position = new Vector2(7.985f, playerOne.transform.position.y);
+        }
+        else if (playerOne.transform.position.x < -7.985f)
+        {
+            playerOne.transform.position = new Vector2(-7.985f, playerOne.transform.position.y);
         }
 
         //P2 Constraints
@@ -139,6 +155,19 @@ public class Player_Controller : MonoBehaviour
         else if (playerTwo.transform.position.x < -7.985f)
         {
             playerTwo.transform.position = new Vector2(-7.985f, playerTwo.transform.position.y);
+        }
+    }
+
+    private void PlayerGrabbing()
+    {
+        //P1 Grabbing
+        if (Input.GetKey(KeyCode.Q) && p1OnWall)
+        {
+            playerOne.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+        }
+        else
+        {
+            playerOne.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
         }
 
         //P2 Grabbing
