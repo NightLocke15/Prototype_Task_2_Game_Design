@@ -46,14 +46,19 @@ public class Player_Controller : MonoBehaviour
         PlayerJumps();
         PlayerBoundaries();
         PlayerGrabbing();
+    }
 
-        var distance = Vector2.Distance(playerOne.transform.position, playerTwo.transform.position);
-
-        if (distance > maxDistance)
+    private void FixedUpdate()
+    {
+        var distance1 = Vector2.Distance(playerOne.transform.position, playerTwo.transform.position);
+        if (distance1 < 2)
         {
-            playerTwo.transform.position = (playerTwo.transform.position - playerOne.transform.position).normalized * maxDistance + playerOne.transform.position;
-            playerOne.transform.position = (playerOne.transform.position - playerTwo.transform.position).normalized * maxDistance + playerTwo.transform.position;            
-        }        
+            playerOne.GetComponent<SpringJoint2D>().enabled = false;
+        }
+        else if (distance1 > 2)
+        {
+            playerOne.GetComponent<SpringJoint2D>().enabled = true;
+        }
     }
 
     private void PlayerMovement()
@@ -62,20 +67,44 @@ public class Player_Controller : MonoBehaviour
         if (Input.GetKey(KeyCode.D)) // && playerOne.transform.position.x < playerTwo.transform.position.x + maxDistance)
         {
             playerOne.transform.position += Vector3.right * speed * Time.deltaTime;
+
+            //var distance1 = Vector2.Distance(playerOne.transform.position, playerTwo.transform.position);
+            //if (distance1 > maxDistance)
+            //{
+            //    playerOne.transform.position = (playerOne.transform.position - playerTwo.transform.position).normalized * maxDistance + playerTwo.transform.position;
+            //}
         }
         else if (Input.GetKey(KeyCode.A)) // && playerOne.transform.position.x > playerTwo.transform.position.x - maxDistance)
         {
             playerOne.transform.position += Vector3.left * speed * Time.deltaTime;
+
+            //var distance1 = Vector2.Distance(playerOne.transform.position, playerTwo.transform.position);
+            //if (distance1 > maxDistance)
+            //{
+            //    playerOne.transform.position = (playerOne.transform.position - playerTwo.transform.position).normalized * maxDistance + playerTwo.transform.position;
+            //}
         }
 
         //P2 Move
         if (Input.GetKey(KeyCode.RightArrow)) // && playerTwo.transform.position.x < playerOne.transform.position.x + maxDistance)
         {
             playerTwo.transform.position += Vector3.right * speed * Time.deltaTime;
+
+            //var distance2 = Vector2.Distance(playerTwo.transform.position, playerOne.transform.position);
+            //if (distance2 > maxDistance)
+            //{
+            //    playerTwo.transform.position = (playerTwo.transform.position - playerOne.transform.position).normalized * maxDistance + playerOne.transform.position;
+            //}
         }
         else if (Input.GetKey(KeyCode.LeftArrow)) // && playerTwo.transform.position.x > playerOne.transform.position.x - maxDistance)
         {
             playerTwo.transform.position += Vector3.left * speed * Time.deltaTime;
+
+            //var distance2 = Vector2.Distance(playerTwo.transform.position, playerOne.transform.position);
+            //if (distance2 > maxDistance)
+            //{
+            //    playerTwo.transform.position = (playerTwo.transform.position - playerOne.transform.position).normalized * maxDistance + playerOne.transform.position;
+            //}
         }
     }
 
@@ -83,6 +112,10 @@ public class Player_Controller : MonoBehaviour
     {
         //Player 1
         if (p1Collider.IsTouching(floorCollider))
+        {
+            p1OnFloor = true;
+        }
+        else if (p1Collider.IsTouching(p2Collider))
         {
             p1OnFloor = true;
         }
@@ -102,6 +135,10 @@ public class Player_Controller : MonoBehaviour
 
         //Player 2
         if (p2Collider.IsTouching(floorCollider))
+        {
+            p2OnFloor = true;
+        }
+        else if (p2Collider.IsTouching(p1Collider))
         {
             p2OnFloor = true;
         }
