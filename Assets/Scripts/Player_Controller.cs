@@ -64,47 +64,23 @@ public class Player_Controller : MonoBehaviour
     private void PlayerMovement()
     {
         //P1 Move
-        if (Input.GetKey(KeyCode.D)) // && playerOne.transform.position.x < playerTwo.transform.position.x + maxDistance)
+        if (Input.GetKey(KeyCode.D))
         {
             playerOne.transform.position += Vector3.right * speed * Time.deltaTime;
-
-            //var distance1 = Vector2.Distance(playerOne.transform.position, playerTwo.transform.position);
-            //if (distance1 > maxDistance)
-            //{
-            //    playerOne.transform.position = (playerOne.transform.position - playerTwo.transform.position).normalized * maxDistance + playerTwo.transform.position;
-            //}
         }
-        else if (Input.GetKey(KeyCode.A)) // && playerOne.transform.position.x > playerTwo.transform.position.x - maxDistance)
+        else if (Input.GetKey(KeyCode.A))
         {
             playerOne.transform.position += Vector3.left * speed * Time.deltaTime;
-
-            //var distance1 = Vector2.Distance(playerOne.transform.position, playerTwo.transform.position);
-            //if (distance1 > maxDistance)
-            //{
-            //    playerOne.transform.position = (playerOne.transform.position - playerTwo.transform.position).normalized * maxDistance + playerTwo.transform.position;
-            //}
         }
 
         //P2 Move
-        if (Input.GetKey(KeyCode.RightArrow)) // && playerTwo.transform.position.x < playerOne.transform.position.x + maxDistance)
+        if (Input.GetKey(KeyCode.RightArrow)) 
         {
             playerTwo.transform.position += Vector3.right * speed * Time.deltaTime;
-
-            //var distance2 = Vector2.Distance(playerTwo.transform.position, playerOne.transform.position);
-            //if (distance2 > maxDistance)
-            //{
-            //    playerTwo.transform.position = (playerTwo.transform.position - playerOne.transform.position).normalized * maxDistance + playerOne.transform.position;
-            //}
         }
-        else if (Input.GetKey(KeyCode.LeftArrow)) // && playerTwo.transform.position.x > playerOne.transform.position.x - maxDistance)
+        else if (Input.GetKey(KeyCode.LeftArrow)) 
         {
             playerTwo.transform.position += Vector3.left * speed * Time.deltaTime;
-
-            //var distance2 = Vector2.Distance(playerTwo.transform.position, playerOne.transform.position);
-            //if (distance2 > maxDistance)
-            //{
-            //    playerTwo.transform.position = (playerTwo.transform.position - playerOne.transform.position).normalized * maxDistance + playerOne.transform.position;
-            //}
         }
     }
 
