@@ -15,6 +15,8 @@ public class Player_Controller : MonoBehaviour
     private Collider2D rightWallCollider;
     private Collider2D leftWallCollider;
     private Collider2D challengeCollider1;
+    private Collider2D challengeCollider2;
+    private Collider2D challengeCollider3;
     #endregion
 
     #region Variables
@@ -39,6 +41,8 @@ public class Player_Controller : MonoBehaviour
         rightWallCollider = GameObject.Find("Right Wall").GetComponent<Collider2D>();
         leftWallCollider = GameObject.Find("Left Wall").GetComponent<Collider2D>();
         challengeCollider1 = GameObject.Find("Challenge Wall1").GetComponent<Collider2D>();
+        challengeCollider2 = GameObject.Find("Challenge Wall2").GetComponent<Collider2D>();
+        challengeCollider3 = GameObject.Find("Challenge Wall3").GetComponent<Collider2D>();
     }
 
     private void Update()
@@ -53,11 +57,11 @@ public class Player_Controller : MonoBehaviour
     private void FixedUpdate()
     {
         var distance1 = Vector2.Distance(playerOne.transform.position, playerTwo.transform.position);
-        if (distance1 < 2)
+        if (distance1 < maxDistance)
         {
             playerOne.GetComponent<SpringJoint2D>().enabled = false;
         }
-        else if (distance1 > 2)
+        else if (distance1 > maxDistance)
         {
             playerOne.GetComponent<SpringJoint2D>().enabled = true;
         }
@@ -93,7 +97,7 @@ public class Player_Controller : MonoBehaviour
         {
             p1OnFloor = true;
         }
-        else if (p1Collider.IsTouching(p2Collider))
+        else if (p1Collider.IsTouching(p2Collider) || p1Collider.IsTouching(rightWallCollider) || p1Collider.IsTouching(leftWallCollider) || p1Collider.IsTouching(challengeCollider1) || p1Collider.IsTouching(challengeCollider2) || p1Collider.IsTouching(challengeCollider3))
         {
             p1OnFloor = true;
         }
@@ -102,7 +106,7 @@ public class Player_Controller : MonoBehaviour
             p1OnFloor = false;
         }
 
-        if (p1Collider.IsTouching(rightWallCollider) || p1Collider.IsTouching(leftWallCollider) || p1Collider.IsTouching(challengeCollider1))
+        if (p1Collider.IsTouching(rightWallCollider) || p1Collider.IsTouching(leftWallCollider) || p1Collider.IsTouching(challengeCollider1) || p1Collider.IsTouching(challengeCollider2) || p1Collider.IsTouching(challengeCollider3))
         {
             p1OnWall = true;
         }
@@ -116,7 +120,7 @@ public class Player_Controller : MonoBehaviour
         {
             p2OnFloor = true;
         }
-        else if (p2Collider.IsTouching(p1Collider))
+        else if (p2Collider.IsTouching(p1Collider) || p2Collider.IsTouching(rightWallCollider) || p2Collider.IsTouching(leftWallCollider) || p2Collider.IsTouching(challengeCollider1) || p2Collider.IsTouching(challengeCollider2) || p2Collider.IsTouching(challengeCollider3))
         {
             p2OnFloor = true;
         }
@@ -125,7 +129,7 @@ public class Player_Controller : MonoBehaviour
             p2OnFloor = false;
         }
 
-        if (p2Collider.IsTouching(rightWallCollider) || p2Collider.IsTouching(leftWallCollider) || p2Collider.IsTouching(challengeCollider1))
+        if (p2Collider.IsTouching(rightWallCollider) || p2Collider.IsTouching(leftWallCollider) || p2Collider.IsTouching(challengeCollider1) || p2Collider.IsTouching(challengeCollider2) || p2Collider.IsTouching(challengeCollider3))
         {
             p2OnWall = true;
         }
