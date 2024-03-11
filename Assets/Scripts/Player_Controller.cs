@@ -12,6 +12,7 @@ public class Player_Controller : MonoBehaviour
     private Rigidbody2D p1RigidBody;
     private Rigidbody2D p2RigidBody;
     private Collider2D floorCollider;
+    private Collider2D roofCollider;
     private Collider2D rightWallCollider;
     private Collider2D leftWallCollider;
     private Collider2D challengeCollider1;
@@ -43,6 +44,7 @@ public class Player_Controller : MonoBehaviour
         challengeCollider1 = GameObject.Find("Challenge Wall1").GetComponent<Collider2D>();
         challengeCollider2 = GameObject.Find("Challenge Wall2").GetComponent<Collider2D>();
         challengeCollider3 = GameObject.Find("Challenge Wall3").GetComponent<Collider2D>();
+        roofCollider = GameObject.Find("Roof").GetComponent<Collider2D>();
     }
 
     private void Update()
@@ -72,21 +74,50 @@ public class Player_Controller : MonoBehaviour
         //P1 Move
         if (Input.GetKey(KeyCode.D))
         {
-            playerOne.transform.position += Vector3.right * speed * Time.deltaTime;
+            if (p1OnFloor == true)
+            {
+                playerOne.transform.position += Vector3.right * speed * Time.deltaTime;
+            }
+            else
+            {
+                playerOne.GetComponent<Rigidbody2D>().AddForce(Vector3.right * speed, ForceMode2D.Force);
+            }
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            playerOne.transform.position += Vector3.left * speed * Time.deltaTime;
+            if (p1OnFloor == true)
+            {            
+                playerOne.transform.position += Vector3.left * speed * Time.deltaTime;
+            }
+            else
+            {
+                playerOne.GetComponent<Rigidbody2D>().AddForce(Vector3.left * speed, ForceMode2D.Force);
+            }
         }
 
         //P2 Move
         if (Input.GetKey(KeyCode.RightArrow)) 
         {
-            playerTwo.transform.position += Vector3.right * speed * Time.deltaTime;
+            if (p2OnFloor == true)
+            {
+                playerTwo.transform.position += Vector3.right * speed * Time.deltaTime;
+            }
+            else
+            {
+                playerTwo.GetComponent<Rigidbody2D>().AddForce(Vector3.right * speed, ForceMode2D.Force);
+            }
+            
         }
         else if (Input.GetKey(KeyCode.LeftArrow)) 
         {
-            playerTwo.transform.position += Vector3.left * speed * Time.deltaTime;
+            if (p2OnFloor == true)
+            {
+                playerTwo.transform.position += Vector3.left * speed * Time.deltaTime;
+            }
+            else
+            {
+                playerTwo.GetComponent<Rigidbody2D>().AddForce(Vector3.left * speed, ForceMode2D.Force);
+            }            
         }
     }
 
@@ -106,7 +137,7 @@ public class Player_Controller : MonoBehaviour
             p1OnFloor = false;
         }
 
-        if (p1Collider.IsTouching(rightWallCollider) || p1Collider.IsTouching(leftWallCollider) || p1Collider.IsTouching(challengeCollider1) || p1Collider.IsTouching(challengeCollider2) || p1Collider.IsTouching(challengeCollider3))
+        if (p1Collider.IsTouching(rightWallCollider) || p1Collider.IsTouching(leftWallCollider) || p1Collider.IsTouching(challengeCollider1) || p1Collider.IsTouching(challengeCollider2) || p1Collider.IsTouching(challengeCollider3) || p1Collider.IsTouching(roofCollider))
         {
             p1OnWall = true;
         }
@@ -129,7 +160,7 @@ public class Player_Controller : MonoBehaviour
             p2OnFloor = false;
         }
 
-        if (p2Collider.IsTouching(rightWallCollider) || p2Collider.IsTouching(leftWallCollider) || p2Collider.IsTouching(challengeCollider1) || p2Collider.IsTouching(challengeCollider2) || p2Collider.IsTouching(challengeCollider3))
+        if (p2Collider.IsTouching(rightWallCollider) || p2Collider.IsTouching(leftWallCollider) || p2Collider.IsTouching(challengeCollider1) || p2Collider.IsTouching(challengeCollider2) || p2Collider.IsTouching(challengeCollider3) || p2Collider.IsTouching(roofCollider))
         {
             p2OnWall = true;
         }
