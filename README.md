@@ -181,8 +181,8 @@ where it needs to be. The higher this is, the less visible this bounce is.
 - **Speed:** The speed of the player movement.
 - **Jump:** The velocity of the player jump.
 
-| Iteration 1: Spring Joint |
-| ----------- |
+| Iteration 1: Spring Joint | |
+| ----------- | ----:|
 | Distance | 2 |
 | Frequency | 1 |
 
@@ -192,8 +192,8 @@ bouncy, and it would keep bouncing
 every few seconds as it tried to keep
 the distance consistent.
 
-| Iteration 2: Spring Joint |
-| ----------- |
+| Iteration 2: Spring Joint | |
+| ----------- | ----:|
 | Distance | 2 |
 | Frequency | 8 |
 
@@ -203,8 +203,8 @@ anymore, it only looks like the
 players are dragging each other now.
 The distance is too short still.
 
-| Iteration 3: Spring Joint |
-| ----------- |
+| Iteration 3: Spring Joint | |
+| ----------- | ----:|
 | Distance | 3 |
 | Frequency | 8 |
 
@@ -212,8 +212,8 @@ These are perfect, the distance works
 for the puzzles that I made, as well
 as the goals I had for the mechanic.
 
-| Iteration 1: Player Movement |
-| ----------- |
+| Iteration 1: Player Movement | |
+| ----------- | ----:|
 | Speed | 2 |
 | Jump | 2 |
 
@@ -223,16 +223,16 @@ too fast. The jump is too short, it
 does not give the jumpy feeling I
 want it to have.
 
-| Iteration 2: Player Movement |
-| ----------- |
+| Iteration 2: Player Movement | |
+| ----------- | ----:|
 | Speed | 2 |
 | Jump | 2 |
 
 The jump is better, but not there yet,
 it still is not high enough.
 
-| Iteration 3: Player Movement |
-| ----------- |
+| Iteration 3: Player Movement | |
+| ----------- | ----:|
 | Speed | 2 |
 | Jump | 2 |
 
